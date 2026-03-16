@@ -172,8 +172,8 @@ Best Contact Method: Email or LinkedIn
   const handleCommand = () => {
     const cmd = currentCommand.trim().toLowerCase()
     const commandFn = commands[cmd as keyof typeof commands]
-    const output = commandFn ? commandFn() : \`Command not found: \${cmd}
-Type help to see available commands.\`
+    const output = commandFn ? commandFn() : `Command not found: ${cmd}
+Type help to see available commands.`
 
     if (cmd !== 'clear') {
       setHistory(prev => [...prev, { command: currentCommand, output }])
@@ -227,9 +227,9 @@ Type help to see available commands.\`
   }, [])
 
   const renderOutput = (output: string) => {
-    const glowRegex = /(<glow>[\\s\\S]*?<\\/glow>)/g
-    const urlRegex = /(https?:\\/\\/[^\\s]+)/g
-    const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})/g
+    const glowRegex = /(<glow>[\s\S]*?<\/glow>)/g
+    const urlRegex = /(https?:\/\/[^\s]+)/g
+    const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g
     
     const parts = output.split(glowRegex)
     
@@ -245,22 +245,22 @@ Type help to see available commands.\`
       
       let subParts = part.split(urlRegex)
       subParts = subParts.flatMap(subPart => 
-        subPart.match(/^https?:\\/\\/[^\\s]+$/) ? [subPart] : subPart.split(emailRegex)
+        subPart.match(/^https?:\/\/[^\s]+$/) ? [subPart] : subPart.split(emailRegex)
       )
       
       return (
         <span key={index}>
           {subParts.map((subPart, subIndex) => {
-            const key = \`\${index}-\${subIndex}\`
-            if (subPart.match(/^https?:\\/\\/[^\\s]+$/)) {
+            const key = `${index}-${subIndex}`
+            if (subPart.match(/^https?:\/\/[^\s]+$/)) {
               return (
                 <a key={key} href={subPart} target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">
                   {subPart}
                 </a>
               )
-            } else if (subPart.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/)) {
+            } else if (subPart.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
               return (
-                <a key={key} href={\`mailto:\${subPart}\`} className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">
+                <a key={key} href={`mailto:${subPart}`} className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">
                   {subPart}
                 </a>
               )
