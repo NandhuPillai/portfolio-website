@@ -5,12 +5,12 @@ import { useState, useRef, useEffect } from 'react'
 export default function PortfolioTerminal() {
   const [history, setHistory] = useState<Array<{ command: string; output: string }>>([
     { command: '/welcome', output: `
-████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗     ██╗  ██╗   ██╗
+<glow>████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗     ██╗  ██╗   ██╗
 ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗██║     ██║  ╚██╗ ██╔╝
    ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║███████║██║     ██║   ╚████╔╝ 
    ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║██║     ██║    ╚██╔╝  
    ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██║  ██║███████╗███████╗██║   
-   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝   
+   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝</glow>   
 
 [SYSTEM INITIALIZED] - Terminal Portfolio v1.0
 
@@ -78,28 +78,28 @@ at App Dev Club. Honors College: University Honors, Dean's List.
 [TECHNICAL SKILLS MATRIX]
 
 ML / AI Frameworks:
-  Python                ████████████████████ Expert
-  TensorFlow            ██████████████████   Advanced
-  PyTorch               ██████████████████   Advanced
-  NumPy / Pandas        ████████████████████ Expert
+  Python                <glow>████████████████████</glow> Expert
+  TensorFlow            <glow>██████████████████</glow>   Advanced
+  PyTorch               <glow>██████████████████</glow>   Advanced
+  NumPy / Pandas        <glow>████████████████████</glow> Expert
 
 Machine Learning:
-  Supervised Learning   ████████████████████ Expert
-  Unsupervised Learning ██████████████████   Advanced
-  Reinforcement Learning██████████████████   Advanced
-  Recommender Systems   ████████████████     Proficient
+  Supervised Learning   <glow>████████████████████</glow> Expert
+  Unsupervised Learning <glow>██████████████████</glow>   Advanced
+  Reinforcement Learning<glow>██████████████████</glow>   Advanced
+  Recommender Systems   <glow>████████████████</glow>     Proficient
 
 Domain Skills:
-  Computer Vision       ██████████████████   Advanced
-  NLP                   ████████████████     Proficient
-  Signal Processing     ██████████████       Intermediate
-  Semantic Segmentation ██████████████████   Advanced
+  Computer Vision       <glow>██████████████████</glow>   Advanced
+  NLP                   <glow>████████████████</glow>     Proficient
+  Signal Processing     <glow>██████████████</glow>       Intermediate
+  Semantic Segmentation <glow>██████████████████</glow>   Advanced
 
 Other:
-  Public Speaking       ████████████████████ Expert
-  Technical Leadership  ████████████████████ Expert
-  Teaching              ██████████████████   Advanced
-  Engineering Data Mgmt ████████████████     Proficient
+  Public Speaking       <glow>████████████████████</glow> Expert
+  Technical Leadership  <glow>████████████████████</glow> Expert
+  Teaching              <glow>██████████████████</glow>   Advanced
+  Engineering Data Mgmt <glow>████████████████</glow>     Proficient
     `,
     'experience': () => `
 [WORK EXPERIENCE]
@@ -172,8 +172,8 @@ Best Contact Method: Email or LinkedIn
   const handleCommand = () => {
     const cmd = currentCommand.trim().toLowerCase()
     const commandFn = commands[cmd as keyof typeof commands]
-    const output = commandFn ? commandFn() : `Command not found: ${cmd}
-Type help to see available commands.`
+    const output = commandFn ? commandFn() : \`Command not found: \${cmd}
+Type help to see available commands.\`
 
     if (cmd !== 'clear') {
       setHistory(prev => [...prev, { command: currentCommand, output }])
@@ -227,29 +227,48 @@ Type help to see available commands.`
   }, [])
 
   const renderOutput = (output: string) => {
-    const urlRegex = /(https?:\/\/[^\s]+)/g
-    const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g
+    const glowRegex = /(<glow>[\\s\\S]*?<\\/glow>)/g
+    const urlRegex = /(https?:\\/\\/[^\\s]+)/g
+    const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})/g
     
-    let parts = output.split(urlRegex)
-    parts = parts.flatMap(part => 
-      urlRegex.test(part) ? [part] : part.split(emailRegex)
-    )
+    const parts = output.split(glowRegex)
     
     return parts.map((part, index) => {
-      if (urlRegex.test(part)) {
+      if (part.startsWith('<glow>') && part.endsWith('</glow>')) {
+        const content = part.slice(6, -7)
         return (
-          <a key={index} href={part} target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">
-            {part}
-          </a>
-        )
-      } else if (emailRegex.test(part)) {
-        return (
-          <a key={index} href={`mailto:${part}`} className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">
-            {part}
-          </a>
+          <span key={index} className="text-green-400" style={{ textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80' }}>
+            {content}
+          </span>
         )
       }
-      return <span key={index}>{part}</span>
+      
+      let subParts = part.split(urlRegex)
+      subParts = subParts.flatMap(subPart => 
+        subPart.match(/^https?:\\/\\/[^\\s]+$/) ? [subPart] : subPart.split(emailRegex)
+      )
+      
+      return (
+        <span key={index}>
+          {subParts.map((subPart, subIndex) => {
+            const key = \`\${index}-\${subIndex}\`
+            if (subPart.match(/^https?:\\/\\/[^\\s]+$/)) {
+              return (
+                <a key={key} href={subPart} target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">
+                  {subPart}
+                </a>
+              )
+            } else if (subPart.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/)) {
+              return (
+                <a key={key} href={\`mailto:\${subPart}\`} className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors">
+                  {subPart}
+                </a>
+              )
+            }
+            return <span key={key}>{subPart}</span>
+          })}
+        </span>
+      )
     })
   }
 
